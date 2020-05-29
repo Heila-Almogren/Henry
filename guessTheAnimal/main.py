@@ -51,7 +51,15 @@ def search(dic):
 
         # ask if the key is correct
         print('Henry: is it', key, '?')
-        ans = input()
+        repeater = True
+
+        while repeater:
+            ans = input().upper()
+            if ans != 'Y' and ans != 'N':
+                print('Henry: That\'s not neither Y or N!', 'is it', key, 'or not?')
+                repeater = True
+            else:
+                repeater = False
 
         # case: Wrong attribute
         if ans == 'N':
@@ -59,17 +67,15 @@ def search(dic):
             excluded_attributes.add(key)
             print(excluded_attributes, ' added to excluded attributes')
 
-            if(excluded_animals != set([])):
-                print('not empty, union')
+            if excluded_animals != set([]):
                 excluded_animals = excluded_animals.union(dic[key])
             else:
-                print('empty, copy')
                 excluded_animals = dic[key].copy()
 
             # First case: If there is only one attribute left --> take one possible output and ask the user
             if len(dic) == 1:
                 print('Henry: OK, I give up.. what is it? ', dic[key], '?')
-                property_owner = input()
+                property_owner = input().upper()
                 for k in common_attributes:
                     attributes[k].add(property_owner)
 
@@ -85,19 +91,25 @@ def search(dic):
                 dic_rec = {}
                 del dic_copy[key]
                 for keyCopy in dic_copy.keys():
-                    print('finding differences.. ')
                     diff = dic_copy[keyCopy].difference(excluded_animals)
-                    if diff != {}:
-                        print('found differences')
+                    if diff != set([]):
                         dic_rec[keyCopy] = diff
+                        print('result of difference: ', dic_rec)
+                        print('Result Dictionary: ', dic_rec, 'Recursion:')
 
-                print('result of difference: ', dic_rec)
+                        if search(dic_rec): return False
+                        # if reboot is required, skip and return
+                    else:
+                        print('Henry: OK, I give up.. what is it?')
+                        property_owner = input().upper()
+                        for k in common_attributes:
+                            attributes[k].add(property_owner)
+
+                        print('Henry: Ok! Let\'s play again :D')
+                        print('----------- ROUND ', n_round, ' -----------')
+                        reboot = True
 
 
-                print('Result Dictionary: ', dic_rec, 'Recursion:')
-                print()
-                if search(dic_rec): return False
-                # if reboot is required, skip and return
                 if reboot:
                     return True
 
@@ -111,7 +123,17 @@ def search(dic):
             # First case: If there is only one attribute left --> take one possible output and ask the user
             if len(dic) == 1:
                 print('Henry: hmm, is it ', dic[key], '?   (Y/N)')
-                ans = input()
+                repeater = True
+
+                while repeater:
+                    ans = input().upper()
+                    print(ans)
+                    if ans != 'Y' and ans != 'N':
+                        print('Henry: That\'s not neither Y ')
+                        repeater = True
+                    else:
+                        repeater = False
+
 
                 # If it's correct, celebrate :P
                 if ans == 'Y':
@@ -119,7 +141,7 @@ def search(dic):
                     print('Henry: Do you want to play another Round?  (Y/N)')
                     repeat = True
                     while(repeat):
-                        another_round = input()
+                        another_round = input().upper()
                         if another_round == 'Y':
                             repeat = False
                             print('----------- ROUND ', n_round, ' -----------')
@@ -135,12 +157,12 @@ def search(dic):
                 # If it's incorrect, ask the user for a way to differentiate
                 if ans == 'N':
                     print('Henry: hmm.. What\'s the correct answer then?!')
-                    correct = input()
+                    correct = input().upper()
                     print('Henry: Really :\\ and What\'s the difference between ', correct, ' and ', dic[key], '?!')
                     print('(write a single property like: fast)')
-                    new_property = input()
+                    new_property = input().upper()
                     print('Henry: wait, which one is ', new_property, '? ' , correct , ' or ', dic[key], '?')
-                    property_owner = input()
+                    property_owner = input().upper()
                     common_attributes.add(new_property)
                     for k in common_attributes:
                         if k in attributes:
@@ -162,11 +184,9 @@ def search(dic):
                 dic_rec = {}
                 del dic_copy[key]
                 for keyCopy in dic_copy.keys():
-                    print('finding intersections.. ')
                     if not possible_output.isdisjoint(dic_copy[keyCopy]):
                         dic_rec[keyCopy] = possible_output.intersection(dic_copy[keyCopy])
                 if dic_rec != {}:
-                    print('NOT EMPTY')
                     print('Result Dictionary: ', dic_rec, 'Recursion:')
                     print()
                     if search(dic_rec): return False
