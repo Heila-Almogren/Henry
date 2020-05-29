@@ -37,6 +37,9 @@ def main():
 
 def search(dic):
 
+    if dic == {}:
+        return False
+
     # reboot used to restore the definition when new knowledge is acquired
     global reboot, excluded_animals
     global n_round
@@ -62,7 +65,7 @@ def search(dic):
             else:
                 print('empty, copy')
                 excluded_animals = dic[key].copy()
-            print('passed')
+
             # First case: If there is only one attribute left --> take one possible output and ask the user
             if len(dic) == 1:
                 print('Henry: OK, I give up.. what is it? ', dic[key], '?')
@@ -84,7 +87,7 @@ def search(dic):
                 for keyCopy in dic_copy.keys():
                     print('finding differences.. ')
                     diff = dic_copy[keyCopy].difference(excluded_animals)
-                    if diff != set([]):
+                    if diff != {}:
                         print('found differences')
                         dic_rec[keyCopy] = diff
 
@@ -163,6 +166,7 @@ def search(dic):
                     if not possible_output.isdisjoint(dic_copy[keyCopy]):
                         dic_rec[keyCopy] = possible_output.intersection(dic_copy[keyCopy])
                 if dic_rec != {}:
+                    print('NOT EMPTY')
                     print('Result Dictionary: ', dic_rec, 'Recursion:')
                     print()
                     if search(dic_rec): return False
