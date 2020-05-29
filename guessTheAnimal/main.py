@@ -24,7 +24,7 @@ def main():
     global excluded_attributes
     global excluded_animals
 
-    print('BOT: let\'s start')
+    print('Henry: let\'s start')
     while True:
         reboot = False
         n_round += 1
@@ -41,18 +41,18 @@ def search(dic):
     global reboot, excluded_animals
     global n_round
 
-    print('BOT: so, it can be ', dic.keys())
+    print('Henry: so, it can be ', dic.keys())
 
     # Iterate through all keys
     for key in dic.keys():
 
         # ask if the key is correct
-        print('BOT: is it', key, '?')
+        print('Henry: is it', key, '?')
         ans = input()
 
         # case: Wrong attribute
         if ans == 'N':
-            print('BOT: hmm, OK THEN..')
+            print('Henry: hmm, OK THEN..')
             excluded_attributes.add(key)
             print(excluded_attributes, ' added to excluded attributes')
 
@@ -65,14 +65,14 @@ def search(dic):
             print('passed')
             # First case: If there is only one attribute left --> take one possible output and ask the user
             if len(dic) == 1:
-                print('BOT: OK, I give up.. what is it? ', dic[key], '?')
+                print('Henry: OK, I give up.. what is it? ', dic[key], '?')
                 property_owner = input()
                 for k in common_attributes:
                     attributes[k].add(property_owner)
 
                 print('common attributes updated: ', common_attributes)
 
-                print('BOT: Ok! Let\'s play again :D')
+                print('Henry: Ok! Let\'s play again :D')
                 print('----------- ROUND ', n_round, ' -----------')
                 reboot = True
             # Second case: If there are other attributes
@@ -107,13 +107,13 @@ def search(dic):
 
             # First case: If there is only one attribute left --> take one possible output and ask the user
             if len(dic) == 1:
-                print('BOT: hmm, is it ', dic[key], '?   (Y/N)')
+                print('Henry: hmm, is it ', dic[key], '?   (Y/N)')
                 ans = input()
 
                 # If it's correct, celebrate :P
                 if ans == 'Y':
-                    print('BOT: I WIN!!')
-                    print('BOT: Do you want to play another Round?  (Y/N)')
+                    print('Henry: I WIN!!')
+                    print('Henry: Do you want to play another Round?  (Y/N)')
                     repeat = True
                     while(repeat):
                         another_round = input()
@@ -124,19 +124,19 @@ def search(dic):
                         else:
                             if another_round == 'N':
                                 repeat = False
-                                print('BOT: Bye! Nice play BTW ;D ')
+                                print('Henry: Bye! Nice play BTW ;D ')
                                 exit(0)
                             else:
-                                print('BOT: That\'s not a Y or N! DO YOU WANT ANOTHER ROUND OR NOT??  (Y/N)')
+                                print('Henry: That\'s not a Y or N! DO YOU WANT ANOTHER ROUND OR NOT??  (Y/N)')
 
                 # If it's incorrect, ask the user for a way to differentiate
                 if ans == 'N':
-                    print('BOT: hmm.. What\'s the correct answer then?!')
+                    print('Henry: hmm.. What\'s the correct answer then?!')
                     correct = input()
-                    print('BOT: Really :\\ and What\'s the difference between ', correct, ' and ', dic[key], '?!')
+                    print('Henry: Really :\\ and What\'s the difference between ', correct, ' and ', dic[key], '?!')
                     print('(write a single property like: fast)')
                     new_property = input()
-                    print('BOT: wait, which one is ', new_property, '? ' , correct , ' or ', dic[key], '?')
+                    print('Henry: wait, which one is ', new_property, '? ' , correct , ' or ', dic[key], '?')
                     property_owner = input()
                     common_attributes.add(new_property)
                     for k in common_attributes:
@@ -146,7 +146,7 @@ def search(dic):
 
                     print('common attributes updated: ', common_attributes)
                     print('attributes updated: ', attributes)
-                    print('BOT: Ok! Let\'s play again :D')
+                    print('Henry: Ok! Let\'s play again :D')
                     print('----------- ROUND ', n_round, ' -----------')
                     reboot = True
 
