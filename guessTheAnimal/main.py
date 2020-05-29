@@ -53,6 +53,7 @@ def search(dic):
         print('Henry: is it', key, '?')
         repeater = True
 
+        # Input validator
         while repeater:
             ans = input().upper()
             if ans != 'Y' and ans != 'N':
