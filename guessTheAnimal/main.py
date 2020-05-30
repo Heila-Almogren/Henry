@@ -19,15 +19,18 @@ n_round = 0
 
 
 def main():
-    global reboot
+    global reboot, n_round, common_attributes, excluded_attributes, excluded_animals, possible_output
     global n_round
-
-    print('Henry: let\'s start')
-
     reboot = True
-    n_round += 1
 
     while (reboot):
+        print('Henry: let\'s start')
+        common_attributes = set([])
+        excluded_attributes = set([])
+        excluded_animals = set([])
+        possible_output = set([])
+        n_round += 1
+        reboot = False
         search(attributes)
 
 
@@ -38,19 +41,34 @@ def search(dic):
 
     if len(dic) == 0:
         give_up('')
+        return
 
     # first case: one attribute is remaining
     iterator = iter(dic)
     current = next(iterator)
 
     if len(possible_output) == 1 or len(dic) == 1 or len(common_attributes) == len(dic):
-        print('is it', next(iter(possible_output)),'?')
+        possible_outcome = possible_output.pop()
+        print('Henry: is it', possible_outcome,'?')
+        possible_output.add(possible_outcome)
+        ans = input()
+
+        if ans == 'Y':
+            print('Henry: HURRAAAY!! ')
+            print('Henry:Nice game, friend! Would like to play again?')
+            repeat = input()
+            if repeat == 'Y':
+                main()
+            if repeat == 'N':
+                print('Henry: Bye then, see you later!')
+                exit(0)
+
+        if ans == 'N':
+            give_up(possible_outcome)
         return
 
     while current in common_attributes:
         current = next(iterator)
-
-
 
     print('is it', current, '?')
     ans = input()
@@ -100,7 +118,6 @@ def give_up(wrong_answer):
 
     print('(write a single property like: fast)')
     new_property = input().lower()
-    print('thanks')
 
     if not wrong_answer == '':
         print('Henry: wait, which one is ', new_property, '? ', correct, ' or ', wrong_answer, '?')
@@ -108,7 +125,6 @@ def give_up(wrong_answer):
     else:
         property_owner = correct
 
-    print('thanks')
 
     common_attributes.add(new_property)
     for k in common_attributes:
