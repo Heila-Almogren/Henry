@@ -51,12 +51,36 @@ def search(dic):
         possible_outcome = possible_output.pop()
         print('Henry: is it', possible_outcome,'?')
         possible_output.add(possible_outcome)
-        ans = input()
+
+        repeater = True
+        ans = input().upper()
+
+        while repeater:
+
+            if ans != 'Y' and ans != 'N':
+                print('Henry: That\'s not neither Y or N! ', 'is it', possible_outcome, ' or not?')
+                ans = input().upper()
+                repeater = True
+            else:
+                repeater = False
 
         if ans == 'Y':
             print('Henry: HURRAAAY!! ')
             print('Henry:Nice game, friend! Would like to play again?')
-            repeat = input()
+
+
+            repeat = input().upper()
+
+            repeater = True
+            while repeater:
+
+                if repeat != 'Y' and ans != 'N':
+                    print('Henry: That\'s not neither Y or N! ', 'is it', possible_outcome, ' or not?')
+                    repeat = input().upper()
+                    repeater = True
+                else:
+                    repeater = False
+
             if repeat == 'Y':
                 main()
             if repeat == 'N':
@@ -71,7 +95,18 @@ def search(dic):
         current = next(iterator)
 
     print('is it', current, '?')
-    ans = input()
+    ans = input().upper()
+
+    repeater = True
+
+    while repeater:
+
+        if ans != 'Y' and ans != 'N':
+            print('Henry: That\'s not neither Y or N! ', 'is it', key, ' or not?')
+            ans = input().upper()
+            repeater = True
+        else:
+            repeater = False
 
     if ans == 'Y':
         # Record as a global common attribute
@@ -110,6 +145,17 @@ def give_up(wrong_answer):
     print('Henry: hmm.. What\'s the correct answer then?!')
     correct = input().lower()
 
+    repeater = True
+
+    while repeater:
+
+        if correct == '':
+            print('Henry: Seriously.. WHAT IS THE CORRECT ANSWER!?')
+            correct = input().lower()
+            repeater = True
+        else:
+            repeater = False
+
     if wrong_answer == '':
         print('Henry: Hmm, what\'s special about ', correct, '?')
 
@@ -119,9 +165,32 @@ def give_up(wrong_answer):
     print('(write a single property like: fast)')
     new_property = input().lower()
 
+    repeater = True
+
+    while repeater:
+
+        if new_property == '':
+            print('Henry: HEY!? I WANT TO KNOW WHAT\'S SPECIAL ABOUT', correct.upper(), '!')
+            new_property = input().lower()
+            repeater = True
+        else:
+            repeater = False
+
     if not wrong_answer == '':
         print('Henry: wait, which one is ', new_property, '? ', correct, ' or ', wrong_answer, '?')
         property_owner = input().lower()
+
+        repeater = True
+
+        while repeater:
+
+            if property_owner == '':
+                print('Henry: You heard my question right.. WHICH ONE!?')
+                property_owner = input().lower()
+                repeater = True
+            else:
+                repeater = False
+
     else:
         property_owner = correct
 
