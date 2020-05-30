@@ -37,7 +37,11 @@ def main():
 
 def search(dic):
     if dic == {}:
-        return False
+        return True
+
+
+
+
 
     # reboot used to restore the definition when new knowledge is acquired
     global reboot, excluded_animals
@@ -47,14 +51,21 @@ def search(dic):
 
     # Iterate through all keys
     for key in dic.keys():
-
         # ask if the key is correct
+        if key in common_attributes:
+            print('common attribute!')
+            return True
+
+        if len(dic) == 1:
+            print('want to reach here')
+
+
+
         print('Henry: is it', key, '?')
         repeater = True
 
         while repeater:
             ans = input().upper()
-            print(ans)
             if ans != 'Y' and ans != 'N':
                 print('Henry: That\'s not neither Y or N! ', 'is it', key, ' or not?')
                 repeater = True
@@ -74,7 +85,7 @@ def search(dic):
 
             # First case: If there is only one attribute left --> take one possible output and ask the user
             if len(dic) == 1:
-                print('Henry: OK, it was the only possible one. I give up.. what is it? ', dic[key], '?')
+                print('Henry: OK, it was the only possible one. I give up.. what is it?')
                 property_owner = input().upper()
                 for k in common_attributes:
                     attributes[k].add(property_owner)
@@ -89,20 +100,21 @@ def search(dic):
                 # Copy of dic used in inner loops
                 dic_copy = dic.copy()
                 dic_rec = {}
-                del dic_copy[key]
+
                 print('excluded: ', excluded_animals)
                 for keyCopy in dic_copy.keys():
                     diff = dic_copy[keyCopy].difference(excluded_animals)
                     if diff != set([]):
-                        print('found')
                         dic_rec[keyCopy] = diff
-                    else:
-                        print('EMPTY:', diff)
                 print('result of difference: ', dic_rec)
 
-                if search(dic_rec): return False
-                    # if reboot is required, skip and return
+                print('Now last step')
+                if search(dic_rec):
+                    print('passed if statement')
+                    return True
+                # if reboot is required, skip and return
                 else:
+                    print('didn\'t pass if statement')
                     print('Henry: OK, can\'t find it. I give up.. what is it?')
                     property_owner = input().upper()
                     for k in common_attributes:
@@ -184,14 +196,13 @@ def search(dic):
                 # Copy of dic used in inner loops
                 dic_copy = dic.copy()
                 dic_rec = {}
-                del dic_copy[key]
                 for keyCopy in dic_copy.keys():
                     if not possible_output.isdisjoint(dic_copy[keyCopy]):
                         dic_rec[keyCopy] = possible_output.intersection(dic_copy[keyCopy])
                 if dic_rec != {}:
                     print('Result Dictionary: ', dic_rec, 'Recursion:')
                     print()
-                    if search(dic_rec): return False
+                    if search(dic_rec): return True
                 else:
                     print('idk')
                 # if reboot is required, skip and return
