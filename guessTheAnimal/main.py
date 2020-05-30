@@ -35,20 +35,19 @@ def search(dic):
     print(dic)
     global reboot, excluded_animals, n_round, possible_output
 
-
+    if len(dic) == 0:
+        give_up('')
 
     # first case: one attribute is remaining
     iterator = iter(dic)
     current = next(iterator)
 
-
+    if len(possible_output) == 1 or len(dic) == 1:
+        print('is it', next(iter(possible_output)),'?')
+        return
 
     while current in common_attributes and not len(common_attributes) == len(dic):
         current = next(iterator)
-
-    if len(possible_output) == 1 or len(dic) == 1:
-        print('reached answer')
-        return
 
     print('is it', current, '?')
     ans = input()
@@ -80,6 +79,37 @@ def search(dic):
             if diff != set([]):
                 dic_rec[key] = diff
         search(dic_rec)
+
+
+def give_up(wrong_answer):
+
+
+    print('Henry: hmm.. What\'s the correct answer then?!')
+    correct = input().lower()
+
+    if not wrong_answer == '':
+        print('Henry: Really :\\ and What\'s the difference between ', correct, ' and ', wrong_answer, '?!')
+    else:
+        print('Henry: Hmm, what\'s special about ', correct, '?')
+
+    print('(write a single property like: fast)')
+    new_property = input().lower()
+    print('Henry: wait, which one is ', new_property, '? ', correct, ' or ', wrong_answer, '?')
+    property_owner = input().lower()
+    common_attributes.add(new_property)
+    for k in common_attributes:
+        if k in attributes:
+            attributes[k].add(property_owner)
+        else:
+            attributes[k] = set([property_owner])
+
+
+
+    print('common attributes updated: ', common_attributes)
+    print('attributes updated: ', attributes)
+    print('Henry: Ok! Let\'s play again :D')
+    print('----------- ROUND ', n_round, ' -----------')
+    ans = input.lower()
 
 
 
