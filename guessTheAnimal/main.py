@@ -1,10 +1,10 @@
 # Initial Knowledge
 attributes = \
-    {'mammal': set(['dog', 'cat', 'horse', 'Lion', 'Cheetah']),
-     'fast': set(['dog', 'horse', 'Cheetah']),
-     'reptile': set(['frog', 'turtle', 'dinosaur']),
-     'cute': set(['dog', 'cat']),
-     'scary': set(['dinosaur', 'Lion'])}
+    {'mammal': {'dog', 'cat', 'horse', 'Lion', 'Cheetah'},
+     'fast': {'dog', 'horse', 'Cheetah'},
+     'reptile': {'frog', 'turtle', 'dinosaur'},
+     'cute': {'dog', 'cat'},
+     'scary': {'dinosaur', 'Lion'}}
 
 # Temporary sets to store specified attributes to be used later
 common_attributes = set([])
@@ -23,7 +23,7 @@ def main():
     global n_round
     reboot = True
 
-    while (reboot):
+    while reboot:
         print('Henry: let\'s start')
         common_attributes = set([])
         excluded_attributes = set([])
@@ -36,7 +36,7 @@ def main():
 
 def search(dic):
 
-    print(dic)
+    # print(dic)
     global reboot, excluded_animals, n_round, possible_output
 
     if len(dic) == 0:
@@ -49,7 +49,7 @@ def search(dic):
 
     if len(possible_output) == 1 or len(dic) == 1 or len(common_attributes) == len(dic):
         possible_outcome = possible_output.pop()
-        print('Henry: is it', possible_outcome,'?')
+        print('Henry: is it', possible_outcome, '?')
         possible_output.add(possible_outcome)
 
         repeater = True
@@ -67,7 +67,6 @@ def search(dic):
         if ans == 'Y':
             print('Henry: HURRAAAY!! ')
             print('Henry:Nice game, friend! Would like to play again?')
-
 
             repeat = input().upper()
 
@@ -102,7 +101,7 @@ def search(dic):
     while repeater:
 
         if ans != 'Y' and ans != 'N':
-            print('Henry: That\'s not neither Y or N! ', 'is it', key, ' or not?')
+            print('Henry: That\'s not neither Y or N! ', 'is it', current, ' or not?')
             ans = input().upper()
             repeater = True
         else:
@@ -118,10 +117,11 @@ def search(dic):
                 dic_rec[key] = possible_output.intersection(dic[key])
                 possible_output.union(dic_rec[key])
         if dic_rec == {}:
-            print('reached out')
+            # print('reached out')
+            give_up('')
         else:
-            print('sent', dic_rec)
-            print('possible_output:', possible_output)
+            # print('sent', dic_rec)
+            # print('possible_output:', possible_output)
             search(dic_rec)
 
     if ans == 'N':
@@ -185,7 +185,7 @@ def give_up(wrong_answer):
         while repeater:
 
             if property_owner == '':
-                print('Henry: You heard my question right.. WHICH ONE!?')
+                print('Henry: You heard my question right? WHICH ONE!?')
                 property_owner = input().lower()
                 repeater = True
             else:
@@ -194,16 +194,15 @@ def give_up(wrong_answer):
     else:
         property_owner = correct
 
-
     common_attributes.add(new_property)
     for k in common_attributes:
         if k in attributes:
             attributes[k].add(property_owner)
         else:
-            attributes[k] = set([property_owner])
+            attributes[k] = {property_owner}
 
-    print('common attributes updated: ', common_attributes)
-    print('attributes updated: ', attributes)
+    # print('common attributes updated: ', common_attributes)
+    # print('attributes updated: ', attributes)
     print('Henry: Ok! Let\'s play again :D')
     print('----------- ROUND ', n_round, ' -----------')
     reboot = True
