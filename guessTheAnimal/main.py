@@ -1,10 +1,10 @@
 # Initial Knowledge
 attributes = \
-        {'mammal': set(['dog', 'cat', 'horse', 'Lion', 'Cheetah']),
-         'fast': set(['dog','horse', 'Cheetah']),
-         'reptile': set(['frog', 'turtle', 'dinosaur']),
-         'cute': set(['dog', 'cat']),
-         'scary': set(['dinosaur', 'Lion'])}
+    {'mammal': set(['dog', 'cat', 'horse', 'Lion', 'Cheetah']),
+     'fast': set(['dog', 'horse', 'Cheetah']),
+     'reptile': set(['frog', 'turtle', 'dinosaur']),
+     'cute': set(['dog', 'cat']),
+     'scary': set(['dinosaur', 'Lion'])}
 
 # Temporary sets to store specified attributes to be used later
 common_attributes = set([])
@@ -36,7 +36,6 @@ def main():
 
 
 def search(dic):
-
     if dic == {}:
         return False
 
@@ -53,11 +52,11 @@ def search(dic):
         print('Henry: is it', key, '?')
         repeater = True
 
-        # Input validator
         while repeater:
             ans = input().upper()
+            print(ans)
             if ans != 'Y' and ans != 'N':
-                print('Henry: That\'s not neither Y or N!', 'is it', key, 'or not?')
+                print('Henry: That\'s not neither Y or N! ', 'is it', key, ' or not?')
                 repeater = True
             else:
                 repeater = False
@@ -75,7 +74,7 @@ def search(dic):
 
             # First case: If there is only one attribute left --> take one possible output and ask the user
             if len(dic) == 1:
-                print('Henry: OK, I give up.. what is it? ', dic[key], '?')
+                print('Henry: OK, it was the only possible one. I give up.. what is it? ', dic[key], '?')
                 property_owner = input().upper()
                 for k in common_attributes:
                     attributes[k].add(property_owner)
@@ -91,25 +90,27 @@ def search(dic):
                 dic_copy = dic.copy()
                 dic_rec = {}
                 del dic_copy[key]
+                print('excluded: ', excluded_animals)
                 for keyCopy in dic_copy.keys():
                     diff = dic_copy[keyCopy].difference(excluded_animals)
                     if diff != set([]):
+                        print('found')
                         dic_rec[keyCopy] = diff
-                        print('result of difference: ', dic_rec)
-                        print('Result Dictionary: ', dic_rec, 'Recursion:')
-
-                        if search(dic_rec): return False
-                        # if reboot is required, skip and return
                     else:
-                        print('Henry: OK, I give up.. what is it?')
-                        property_owner = input().upper()
-                        for k in common_attributes:
-                            attributes[k].add(property_owner)
+                        print('EMPTY:', diff)
+                print('result of difference: ', dic_rec)
 
-                        print('Henry: Ok! Let\'s play again :D')
-                        print('----------- ROUND ', n_round, ' -----------')
-                        reboot = True
+                if search(dic_rec): return False
+                    # if reboot is required, skip and return
+                else:
+                    print('Henry: OK, can\'t find it. I give up.. what is it?')
+                    property_owner = input().upper()
+                    for k in common_attributes:
+                        attributes[k].add(property_owner)
 
+                    print('Henry: Ok! Let\'s play again :D')
+                    print('----------- ROUND ', n_round, ' -----------')
+                    reboot = True
 
                 if reboot:
                     return True
@@ -135,13 +136,12 @@ def search(dic):
                     else:
                         repeater = False
 
-
                 # If it's correct, celebrate :P
                 if ans == 'Y':
                     print('Henry: I WIN!!')
                     print('Henry: Do you want to play another Round?  (Y/N)')
                     repeat = True
-                    while(repeat):
+                    while (repeat):
                         another_round = input().upper()
                         if another_round == 'Y':
                             repeat = False
@@ -162,13 +162,14 @@ def search(dic):
                     print('Henry: Really :\\ and What\'s the difference between ', correct, ' and ', dic[key], '?!')
                     print('(write a single property like: fast)')
                     new_property = input().upper()
-                    print('Henry: wait, which one is ', new_property, '? ' , correct , ' or ', dic[key], '?')
+                    print('Henry: wait, which one is ', new_property, '? ', correct, ' or ', dic[key], '?')
                     property_owner = input().upper()
                     common_attributes.add(new_property)
                     for k in common_attributes:
                         if k in attributes:
                             attributes[k].add(property_owner)
-                        else: attributes[k] = ([property_owner])
+                        else:
+                            attributes[k] = ([property_owner])
 
                     print('common attributes updated: ', common_attributes)
                     print('attributes updated: ', attributes)
