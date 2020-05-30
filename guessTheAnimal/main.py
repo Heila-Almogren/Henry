@@ -56,8 +56,8 @@ def search(dic):
             print('common attribute!')
             return True
 
-        if len(dic) == 1:
-            print('want to reach here')
+
+
 
 
 
