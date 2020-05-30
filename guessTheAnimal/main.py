@@ -37,7 +37,7 @@ def main():
 
 def search(dic):
     if dic == {}:
-        return True
+        break
 
 
 
