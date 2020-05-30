@@ -53,10 +53,7 @@ def search(dic):
     for key in dic.keys():
         # ask if the key is correct
         if key in common_attributes:
-            print('common attribute!')
-            return True
-
-
+            break
 
 
 
