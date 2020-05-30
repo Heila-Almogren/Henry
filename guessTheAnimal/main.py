@@ -24,10 +24,11 @@ def main():
 
     print('Henry: let\'s start')
 
-    reboot = False
+    reboot = True
     n_round += 1
 
-    search(attributes)
+    while (reboot):
+        search(attributes)
 
 
 def search(dic):
@@ -42,12 +43,14 @@ def search(dic):
     iterator = iter(dic)
     current = next(iterator)
 
-    if len(possible_output) == 1 or len(dic) == 1:
+    if len(possible_output) == 1 or len(dic) == 1 or len(common_attributes) == len(dic):
         print('is it', next(iter(possible_output)),'?')
         return
 
-    while current in common_attributes and not len(common_attributes) == len(dic):
+    while current in common_attributes:
         current = next(iterator)
+
+
 
     print('is it', current, '?')
     ans = input()
@@ -78,24 +81,35 @@ def search(dic):
             diff = dic[key].difference(excluded_animals)
             if diff != set([]):
                 dic_rec[key] = diff
+        possible_output.difference_update(excluded_animals)
         search(dic_rec)
 
 
 def give_up(wrong_answer):
 
+    global reboot
 
     print('Henry: hmm.. What\'s the correct answer then?!')
     correct = input().lower()
 
-    if not wrong_answer == '':
-        print('Henry: Really :\\ and What\'s the difference between ', correct, ' and ', wrong_answer, '?!')
-    else:
+    if wrong_answer == '':
         print('Henry: Hmm, what\'s special about ', correct, '?')
+
+    else:
+        print('Henry: Really :\\ and What\'s the difference between ', correct, ' and ', wrong_answer, '?!')
 
     print('(write a single property like: fast)')
     new_property = input().lower()
-    print('Henry: wait, which one is ', new_property, '? ', correct, ' or ', wrong_answer, '?')
-    property_owner = input().lower()
+    print('thanks')
+
+    if not wrong_answer == '':
+        print('Henry: wait, which one is ', new_property, '? ', correct, ' or ', wrong_answer, '?')
+        property_owner = input().lower()
+    else:
+        property_owner = correct
+
+    print('thanks')
+
     common_attributes.add(new_property)
     for k in common_attributes:
         if k in attributes:
@@ -103,14 +117,11 @@ def give_up(wrong_answer):
         else:
             attributes[k] = set([property_owner])
 
-
-
     print('common attributes updated: ', common_attributes)
     print('attributes updated: ', attributes)
     print('Henry: Ok! Let\'s play again :D')
     print('----------- ROUND ', n_round, ' -----------')
-    ans = input.lower()
-
+    reboot = True
 
 
 if __name__ == "__main__":
