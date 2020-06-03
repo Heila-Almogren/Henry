@@ -1,6 +1,6 @@
-# Henry
+# Henry | Task for Oracle Course (Artificial Intelligence with Machine Learning in Java)
 
-Henry is my first attemp to learn ML 😆 So don't be too rude with him!
+Henry is my first attemp to learn ML 😆 So don't be too rude with him! It's supposed to be in java but I preffered to use python since it's generally more common in ML.
 
 Put a name of an animal in your mind, and he'll ask you about some attributes of that animal, like "is it .."
 Answer him as Y for (yes) or N for (no),
